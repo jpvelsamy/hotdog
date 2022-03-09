@@ -8,7 +8,7 @@ logger = logging.getLogger("ACE")
 
 
 class HotDogPrompt(Cmd):
-    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta']
+    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold']
     configObj = None
 
     def do_prepup(self, args):
@@ -36,6 +36,11 @@ class HotDogPrompt(Cmd):
         br.build_model()
         br.train_model()
         br.test()
+
+    def do_kfold(self, args):
+        br = BostonRegression()
+        br.kfold_validation()
+        br.plot_kfold()
 
     def do_quit(self, args):
         """Quits the program."""

@@ -1,7 +1,3 @@
-import os
-from os.path import expanduser
-
-
 class Configuration:
 
     def __init__(self, commandLineArgument, sysCfg):

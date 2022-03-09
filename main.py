@@ -1,12 +1,9 @@
-import os
-import logging
-import logging.handlers
 import argparse
-from configparser import  ConfigParser
-from hotdogprompt import HotDogPrompt
+import logging.handlers
+from configparser import ConfigParser
+
 from hotdogconfig import Configuration
-import pandas as pd
-import numpy as np
+from hotdogprompt import HotDogPrompt
 
 LOG_FILE_NAME = "hotdog.log"
 CFG_FILE_NAME = "config.ini"
