@@ -14,10 +14,9 @@ logger = logging.getLogger("ACE")
 
 class BostonRegression:
 
-
     def __init__(self):
-
-        self.num_epochs = 5
+        self.k_fold_count = 4
+        self.num_epochs = 500
         self.all_mae_histories = []
         self.model = None
         logger.info("Loading regression dataset")
@@ -61,10 +60,9 @@ class BostonRegression:
 
     def kfold_validation(self):
 
-        k = 4
-        num_val_samples = len(self.train_data) // k
+        num_val_samples = len(self.train_data) // self.k_fold_count
         all_scores = []
-        for i in range(k):
+        for i in range(self.k_fold_count):
             logger.info(f"Processing fold #{i}")
             val_data = self.train_data[i * num_val_samples: (i + 1) * num_val_samples]
             val_targets = self.train_targets[i * num_val_samples: (i + 1) * num_val_samples]
@@ -92,10 +90,21 @@ class BostonRegression:
 
     def plot_kfold(self):
         average_mae_history = [np.mean([x[i] for x in self.all_mae_histories]) for i in range(self.num_epochs)]
-        plt.plot(range(1, len(average_mae_history) + 1), average_mae_history)
+        smoother_points = self.smooth_curve(average_mae_history[10:])
+        plt.plot(range(1, len(smoother_points) + 1), smoother_points)
         plt.xlabel('Epochs')
         plt.ylabel('Validation MAE')
         plt.show()
+
+    def smooth_curve(self, points, factor=0.9):
+        smoothed_points = []
+        for point in points:
+            if smoothed_points:
+                previous = smoothed_points[-1]
+                smoothed_points.append(previous * factor + point * (1 - factor))
+            else:
+                smoothed_points.append(point)
+        return smoothed_points
 
     def train_model(self):
         self.model.fit(self.train_data, self.train_targets, epochs=130, batch_size=16, verbose=0)

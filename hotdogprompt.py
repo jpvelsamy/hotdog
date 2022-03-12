@@ -3,13 +3,22 @@ from cmd import Cmd
 
 from bostonregression import BostonRegression
 from preparedata import PrepareData
+from askjunoace import AskJunoACE
 
 logger = logging.getLogger("ACE")
 
 
 class HotDogPrompt(Cmd):
-    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold']
+    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold','ajfit']
     configObj = None
+
+    def do_ajfit(self, args):
+        try:
+            aj = AskJunoACE()
+            aj.fit_1('/home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv')
+        except(RuntimeError, TypeError, NameError) as error:
+            logger.error("Error preparing data ", error.original_traceback)
+            pass
 
     def do_prepup(self, args):
         try:
