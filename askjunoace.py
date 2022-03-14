@@ -20,10 +20,10 @@ class AskJunoACE:
         names = ["reach", "impressions", "results", "amount", "frequency", "clicks", "cpc", "ctr", "cpreach", "cpm",
                  "engagement", "cpr"]
         data = pd.read_csv(file_name, engine='c', dtype='float64', names=names, header=0, skiprows=0)
-        #mean = data.mean(axis=0)
-        #data -= mean
-        #std = data.std(axis=0)
-        #data /= std
+        mean = data.mean(axis=0)
+        data -= mean
+        std = data.std(axis=0)
+        data /= std
         x = data.iloc[:, 0:10]
         y = data.iloc[:, -1]
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
