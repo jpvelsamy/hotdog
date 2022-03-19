@@ -9,18 +9,18 @@ logger = logging.getLogger("ACE")
 
 
 class AskJunoACE:
-    def __init__(self, config_object):
+    def __init__(self, config_object, input_file):
         self.config_object = config_object
-        self.cpltrainfile = self.config_object.get_cpl_train_file()
+        self.cpl_train_file = input_file
         self.names = ["reach", "impressions", "results", "amount", "frequency", "clicks", "cpc", "ctr", "cpreach",
                       "cpm",
                       "engagement", "cpr"]
-        self.features = self.config_object.get_cpl_features()
-        self.ratio = self.config_object.get_cpl_ratio()
-        self.outcome_file = self.config_object.get_outcome_file()
+        self.features = [self.config_object.get_cpl_features()]
+        self.ratio = float(self.config_object.get_cpl_ratio())
+        self.outcome_file = self.config_object.get_cpl_outcome()
 
     def load_data(self):
-        self.data = pd.read_csv(self.cpltrainfile, engine='c', dtype='float64', names=self.names, header=0, skiprows=0)
+        self.data = pd.read_csv(self.cpl_train_file, engine='c', dtype='float64', names=self.names, header=0, skiprows=0)
 
     def normalize_data(self):
         mean = self.data.mean(axis=0)
@@ -46,7 +46,8 @@ class AskJunoACE:
         test_mse_score, test_mae_score = self.model.evaluate(self.x_test, self.y_test)
         logger.info(f'mse score #{test_mse_score}, mae score #{test_mae_score}')
         # https://stackoverflow.com/questions/40729162/merging-results-from-model-predict-with-original-pandas-dataframe
-        y_hats = self.model.predict(self.x_test)
-        self.y_test['preds'] = y_hats
-        df_out = pd.merge(self.data, self.y_test[['preds']], how='left', left_index=True, right_index=True)
-        df_out.to_csv(self.outcome_file, float_format='%.2f')
+        outcome = self.model.predict(self.x_test)
+        self.y_test['preds'] = outcome
+        df_out = pd.merge(self.data, self.y_test, how='left', left_index=True, right_index=True)
+        logger.info(df_out.head(10))
+        df_out.to_csv(self.outcome_file+'/outcome2.csv', float_format='%.2f')

@@ -27,6 +27,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # cpltrain -cpl /home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv -cpo /home/jpvel/Desktop/outcome2.csv
+# cpltrain /home/jpvel/PycharmProjects/hotdog/data/LeadCampaign_Performance_final_dataset.csv
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Campaign  optimiization module')
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     config.read([CFG_FILE_NAME], 'UTF-8')
     config_obj = Configuration(inputConfig, config)
     prompt = HotDogCmdFactory()
-    prompt.configObj = config_obj
+    prompt.config_obj = config_obj
     prompt.prompt = '>'
     prompt.cmdloop('Starting the  model training repl')
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

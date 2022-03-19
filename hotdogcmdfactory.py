@@ -10,13 +10,13 @@ logger = logging.getLogger("ACE")
 
 class HotDogCmdFactory(Cmd):
     commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold','ajfit','ajfit2','cpltrain']
-    configObj = None
+    config_obj = None
 
 
-    def do_cpltrain(self, args):
+    def do_cpltrain(self, input_file):
         try:
             logger.info(f'Initialising ace engine')
-            aj = AskJunoACE(args)
+            aj = AskJunoACE(self.config_obj, input_file)
             logger.info(f'Loading data for the ace engine to get ready')
             aj.load_data()
             logger.info(f'Normalising data for the ace engine to get ready')
@@ -49,7 +49,7 @@ class HotDogCmdFactory(Cmd):
 
     def do_prepup(self, args):
         try:
-            prepareData = PrepareData(self.configObj)
+            prepareData = PrepareData(self.config_obj)
             prepareData.execute()
         except(RuntimeError, TypeError, NameError) as error:
             logger.error("Error preparing data ", error.original_traceback)
