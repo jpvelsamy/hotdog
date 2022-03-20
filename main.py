@@ -28,6 +28,9 @@ logger.addHandler(consoleHandler)
 
 # cpltrain -cpl /home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv -cpo /home/jpvel/Desktop/outcome2.csv
 # cpltrain /home/jpvel/PycharmProjects/hotdog/data/LeadCampaign_Performance_final_dataset.csv
+# cpltrain /home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv
+# cpleval /home/jpvel/Workspace/hotdogworkspace/hotdog/data/Test_lead_performance_data.csv
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Campaign  optimiization module')

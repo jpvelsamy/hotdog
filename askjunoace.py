@@ -1,9 +1,12 @@
 import logging
 
 import pandas as pd
+import tensorflow as tf
+import csv
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
+
 
 logger = logging.getLogger("ACE")
 
@@ -12,15 +15,15 @@ class AskJunoACE:
     def __init__(self, config_object, input_file):
         self.config_object = config_object
         self.cpl_train_file = input_file
-        self.names = ["reach", "impressions", "results", "amount", "frequency", "clicks", "cpc", "ctr", "cpreach",
-                      "cpm",
-                      "engagement", "cpr"]
-        self.features = [self.config_object.get_cpl_features()]
+        myfeatures = self.config_object.get_cpl_features()
+        self.features = myfeatures.split(",")
         self.ratio = float(self.config_object.get_cpl_ratio())
         self.outcome_file = self.config_object.get_cpl_outcome()
+        self.model_save_path = self.config_object.get_model_save_path()+'/ace_cpl.h5'
 
     def load_data(self):
-        self.data = pd.read_csv(self.cpl_train_file, engine='c', dtype='float64', names=self.names, header=0, skiprows=0)
+        self.data = pd.read_csv(self.cpl_train_file, engine='c', dtype='float64', names=self.features
+                                , header=0, skiprows=0)
 
     def normalize_data(self):
         mean = self.data.mean(axis=0)
@@ -51,3 +54,12 @@ class AskJunoACE:
         df_out = pd.merge(self.data, self.y_test, how='left', left_index=True, right_index=True)
         logger.info(df_out.head(10))
         df_out.to_csv(self.outcome_file+'/outcome2.csv', float_format='%.2f')
+
+    def model_save(self):
+        #keras.models.save_model(self.model_save_path)
+        self.model.save(self.model_save_path)
+
+    #https://www.tensorflow.org/guide/keras/save_and_serialize
+    def model_restore(self):
+        self.model = keras.models.load_model(self.model_save_path)
+

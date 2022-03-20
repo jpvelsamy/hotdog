@@ -5,11 +5,12 @@ from bostonregression import BostonRegression
 from preparedata import PrepareData
 from testaskjunoace import TestAskJunoACE
 from askjunoace import  AskJunoACE
+from askjunoapi import  AskJunoAPI
 logger = logging.getLogger("ACE")
 
 
 class HotDogCmdFactory(Cmd):
-    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold','ajfit','ajfit2','cpltrain']
+    commands = ['prepup', 'feature', 'train', 'test', 'eval', 'bostonmodel', 'calimeta', 'calihead', 'calihead','bostonmeta','kfold','ajfit','ajfit2','cpltrain',"cpleval"]
     config_obj = None
 
 
@@ -27,6 +28,16 @@ class HotDogCmdFactory(Cmd):
             aj.model_init()
             logger.info(f'Training the deep learning engine')
             aj.model_train()
+            aj.model_save()
+        except(RuntimeError, TypeError, NameError) as error:
+            logger.error("Error preparing data ", error.original_traceback)
+            pass
+
+    def do_cpleval(self, input_file):
+        try:
+            eval_model = AskJunoAPI(self.config_obj)
+            eval_model.restore_model()
+            eval_model.test(input_file)
         except(RuntimeError, TypeError, NameError) as error:
             logger.error("Error preparing data ", error.original_traceback)
             pass

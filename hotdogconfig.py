@@ -7,6 +7,7 @@ class Configuration:
         self.cpl_names = sys_cfg['cpl']['names']
         self.cploutcome = sys_cfg['cpl']['outcomefolder']
         self.cpl_ratio = sys_cfg['cpl']['ratio']
+        self.model_save_path = sys_cfg['cpl']['modelsavepath']
 
     def get_source_folder(self):
         return self.sourcefolder
@@ -23,3 +24,5 @@ class Configuration:
     def get_cpl_ratio(self):
         return self.cpl_ratio
 
+    def get_model_save_path(self):
+        return self.model_save_path;
