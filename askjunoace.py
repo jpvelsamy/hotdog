@@ -32,7 +32,7 @@ class AskJunoACE:
         self.data /= std
 
     def test_train_split(self):
-        x = self.data.iloc[:, 0:10]
+        x = self.data.iloc[:, 0:11]
         y = self.data.iloc[:, -1]
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(x, y, test_size=self.ratio)
 
@@ -59,7 +59,7 @@ class AskJunoACE:
         #keras.models.save_model(self.model_save_path)
         self.model.save(self.model_save_path)
 
-    #https://www.tensorflow.org/guide/keras/save_and_serialize
+
     def model_restore(self):
         self.model = keras.models.load_model(self.model_save_path)
 

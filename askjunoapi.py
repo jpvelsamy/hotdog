@@ -13,9 +13,11 @@ class AskJunoAPI:
     def __init__(self, config_object):
         self.config_object = config_object
         myfeatures = self.config_object.get_cpl_features()
-        self.features = myfeatures.split(",")
+        self.features = ['reach','impressions','results','amount','frequency','clicks','cpc','ctr','cpreach','cpm','engagement']
         self.model_save_path = self.config_object.get_model_save_path() + '/ace_cpl.h5'
+        self.outcome_file = self.config_object.get_cpl_outcome()
 
+    # https://www.tensorflow.org/guide/keras/save_and_serialize
     def restore_model(self):
         self.model = keras.models.load_model(self.model_save_path)
 
@@ -25,7 +27,6 @@ class AskJunoAPI:
         data -= mean
         std = data.std(axis=0)
         data /= std
+        logger.info(f'inbound data # {data.head}')
         outcome = self.model.predict(data)
-        df_out = pd.merge(data, outcome, how='left', left_index=True, right_index=True)
-        logger.info(df_out.head(10))
-        df_out.to_csv(self.outcome_file + '/test_outcome.csv', float_format='%.2f')
+        logger.info(f'outcome # {outcome}')
