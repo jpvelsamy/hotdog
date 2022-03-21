@@ -6,15 +6,16 @@ import csv
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
-
+from hotdogconfig import Configuration
 
 logger = logging.getLogger("ACE")
 
 
 class AskJunoACE:
-    def __init__(self, config_object, input_file):
+    def __init__(self, config_object:Configuration, sigma_folder):
         self.config_object = config_object
-        self.cpl_train_file = input_file
+        self.sigma_folder = sigma_folder
+        self.cpl_train_file = self.sigma_folder+self.config_object.get_path_separator()+self.config_object.get_input_file_name()
         myfeatures = self.config_object.get_cpl_features()
         self.features = myfeatures.split(",")
         self.ratio = float(self.config_object.get_cpl_ratio())
@@ -30,6 +31,7 @@ class AskJunoACE:
         self.data -= mean
         std = self.data.std(axis=0)
         self.data /= std
+        logger.info(f'mean # {mean}, std # {std}')
 
     def test_train_split(self):
         x = self.data.iloc[:, 0:11]
@@ -53,7 +55,7 @@ class AskJunoACE:
         self.y_test['preds'] = outcome
         df_out = pd.merge(self.data, self.y_test, how='left', left_index=True, right_index=True)
         logger.info(df_out.head(10))
-        df_out.to_csv(self.outcome_file+'/outcome2.csv', float_format='%.2f')
+        df_out.to_csv(self.outcome_file+self.config_object.get_path_separator()+self.config_object.get_input_file_name()+'_outcome.csv', float_format='%.2f')
 
     def model_save(self):
         #keras.models.save_model(self.model_save_path)

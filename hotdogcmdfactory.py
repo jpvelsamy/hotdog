@@ -45,7 +45,7 @@ class HotDogCmdFactory(Cmd):
     def do_ajfit(self, args):
         try:
             aj = TestAskJunoACE()
-            aj.fit_1('/home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv')
+            aj.fit_1('/home/jpvel/Workspace/hotdogworkspace/hotdog/data/omega.csv')
         except(RuntimeError, TypeError, NameError) as error:
             logger.error("Error preparing data ", error.original_traceback)
             pass
@@ -53,7 +53,7 @@ class HotDogCmdFactory(Cmd):
     def do_ajfit2(self, args):
         try:
             aj = TestAskJunoACE()
-            aj.fit_2('/home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv')
+            aj.fit_2('/home/jpvel/Workspace/hotdogworkspace/hotdog/data/omega.csv')
         except(RuntimeError, TypeError, NameError) as error:
             logger.error("Error preparing data ", error.original_traceback)
             pass

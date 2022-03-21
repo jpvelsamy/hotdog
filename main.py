@@ -26,14 +26,14 @@ consoleHandler.setFormatter(formatter)
 
 logger.addHandler(consoleHandler)
 
-# cpltrain -cpl /home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv -cpo /home/jpvel/Desktop/outcome2.csv
-# cpltrain /home/jpvel/PycharmProjects/hotdog/data/LeadCampaign_Performance_final_dataset.csv
-# cpltrain /home/jpvel/Workspace/hotdogworkspace/hotdog/data/LeadCampaign_Performance_final_dataset.csv
-# cpleval /home/jpvel/Workspace/hotdogworkspace/hotdog/data/Test_lead_performance_data.csv
+# cpltrain -cpl /home/jpvel/Workspace/hotdogworkspace/hotdog/data
+# cpltrain /home/jpvel/PycharmProjects/hotdog/data
+# cpltrain /home/jpvel/Workspace/hotdogworkspace/hotdog/data
+# cpleval /home/jpvel/Workspace/hotdogworkspace/hotdog/data
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Campaign  optimiization module')
+    parser = argparse.ArgumentParser(description='Campaign  optimization module')
     parser.add_argument('-c', '--command',
                         action="store",
                         dest="command",
