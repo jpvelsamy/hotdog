@@ -1,11 +1,10 @@
 import logging
 
 import pandas as pd
-import tensorflow as tf
-import csv
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
+
 from hotdogconfig import Configuration
 
 logger = logging.getLogger("ACE")
@@ -27,11 +26,11 @@ class AskJunoACE:
                                 , header=0, skiprows=0)
 
     def normalize_data(self):
-        mean = self.data.mean(axis=0)
-        self.data -= mean
-        std = self.data.std(axis=0)
-        self.data /= std
-        logger.info(f'mean # {mean}, std # {std}')
+        self.mean = self.data.mean(axis=0)
+        self.data -= self.mean
+        self.std = self.data.std(axis=0)
+        self.data /= self.std
+        logger.info(f'mean # {self.mean}, std # {self.std}')
 
     def test_train_split(self):
         x = self.data.iloc[:, 0:11]
@@ -52,16 +51,23 @@ class AskJunoACE:
         logger.info(f'mse score #{test_mse_score}, mae score #{test_mae_score}')
         # https://stackoverflow.com/questions/40729162/merging-results-from-model-predict-with-original-pandas-dataframe
         outcome = self.model.predict(self.x_test)
-        self.y_test['preds'] = outcome
-        df_out = pd.merge(self.data, self.y_test, how='left', left_index=True, right_index=True)
+        outcome = outcome * self.std.get(key='cpr')
+        outcome = outcome + self.mean.get(key='cpr')
+
+        df_reverse = self.x_test * self.std
+        df_reverse = df_reverse + self.mean
+
+        df_final = self.data * self.std
+        df_final = df_final + self.mean
+
+        df_out = pd.merge(df_reverse, df_final, left_index=True, right_index=True)
+        df_out['outcome'] = outcome
         logger.info(df_out.head(10))
         df_out.to_csv(self.outcome_file+self.config_object.get_path_separator()+self.config_object.get_input_file_name()+'_outcome.csv', float_format='%.2f')
 
     def model_save(self):
-        #keras.models.save_model(self.model_save_path)
+        # keras.models.save_model(self.model_save_path)
         self.model.save(self.model_save_path)
-
 
     def model_restore(self):
         self.model = keras.models.load_model(self.model_save_path)
-
