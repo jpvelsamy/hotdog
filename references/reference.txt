@@ -1,0 +1,18 @@
+01. https://pandas.pydata.org/docs/user_guide/merging.html#database-style-dataframe-or-named-series-joining-merging
+02. https://keras.io/guides/training_with_built_in_methods/
+03. https://keras.io/api/layers/preprocessing_layers/numerical/normalization/
+04. https://stackoverflow.com/questions/55924789/normalization-of-input-data-in-keras/61619778#61619778
+05. https://www.geeksforgeeks.org/python-pandas-series-get/
+06. https://www.statology.org/add-numpy-array-to-pandas-dataframe/
+07. https://gradient.run/notebooks
+08. https://stackoverflow.com/questions/47368296/pandas-read-csv-file-with-float-values-results-in-weird-rounding-and-decimal-dig
+09. https://stackoverflow.com/questions/43697240/how-can-i-split-a-dataset-from-a-csv-file-for-training-and-testing
+10. https://appdividend.com/2018/07/23/prepare-dataset-for-machine-learning-in-python/
+11. https://stackoverflow.com/questions/12336234/read-csv-file-to-numpy-array-first-row-as-strings-rest-as-float
+12. https://autokeras.com/tutorial/structured_data_classification/
+13.https://www.quora.com/How-do-I-load-train-and-test-data-from-the-local-drive-for-a-deep-learning-Keras-model
+
+https://www.deeplearningbook.org/contents/linear_algebra.html
+
+Nice article
+https://curiousily.com/posts/hackers-guide-to-fixing-underfitting-and-overfitting-models/

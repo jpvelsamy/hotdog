@@ -12,6 +12,7 @@ class Configuration:
         self.input_file = sys_cfg['cpl']['input_file']
         self.test_file = sys_cfg['cpl']['test_file']
         self.test_features = sys_cfg['cpl']['test_names']
+        self.epoch = sys_cfg['cpl']['epoch']
 
 
     def get_source_folder(self):
@@ -43,3 +44,6 @@ class Configuration:
 
     def get_test_feature_names(self):
         return self.test_features
+
+    def get_epoch(self):
+        return self.epoch

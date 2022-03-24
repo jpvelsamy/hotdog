@@ -1,0 +1,6 @@
+For names = reach, impressions, amount, clicks, cpreach, cpm, engagement, cpr
+2 runs were conducted,
+Run 1 - omega_outcome_adam_mse_mae29_e100_l2k.csv - mae = 29 and mse = 2000
+Run 2 - omega_outcome_rmsprop_mse_mae11_e100_l200.csv - mae = 11 and mse = 200
+
+Plus there is also an issue the way program came out with its output all being incorrectly merged
